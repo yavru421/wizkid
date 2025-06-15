@@ -1,0 +1,57 @@
+name: Build and Release ZIP
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-zip:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python (for cross-platform zip if needed)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Create ZIP for Release
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $zipName = "wizkid-${{ github.ref_name }}.zip"
+          $exclude = @(
+            '.git',
+            '.gitignore',
+            'ScreenHelp.log',
+            'WizKid.log',
+            'WizKid_by_John_D_Dondlinger.log',
+            'userprefs.json',
+            'WizKid_Feedback.log',
+            '*.env',
+            'venv',
+            'archive/*.log',
+            'archive/*.txt',
+            'archive/*.png',
+            'archive/*.ahk',
+            'archive/diagnostic',
+            'assets/*.png',
+            'assets/*.jpg',
+            'assets/*.jpeg',
+            'assets/*.bmp',
+            'assets/*.gif',
+            'assets/*.webp',
+            'assets/*.tiff',
+            'assets/*.svg'
+          )
+          $files = Get-ChildItem -Recurse -File | Where-Object { $true }
+          $files = $files | Where-Object { $exclude -notcontains $_.Name }
+          Compress-Archive -Path * -DestinationPath $zipName -Force
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: wizkid-${{ github.ref_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
