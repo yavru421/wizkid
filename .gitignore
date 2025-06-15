@@ -1,0 +1,64 @@
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.swn
+
+# PowerShell
+*.ps1~
+*.psm1~
+*.psd1~
+
+# Python (if any)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VSCode
+.vscode/
+.history/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Environment/Secrets
+.env
+userprefs.json
+WizKid_Feedback.log
+
+# Assets/Generated
+assets/*.png
+assets/*.jpg
+assets/*.jpeg
+assets/*.bmp
+assets/*.gif
+assets/*.webp
+assets/*.tiff
+assets/*.svg
+
+# Archive/Temp
+archive/*.log
+archive/*.txt
+archive/*.png
+archive/*.ahk
+archive/diagnostic/
+
+# Misc
+ScreenHelp.log
+WizKid.log
+WizKid_by_John_D_Dondlinger.log
+
+# Installer/EXE
+*.exe
+*.msi
+*.bat
+*.cmd
+
+# Git
+.git/
