@@ -1,93 +1,106 @@
-# ScreenHelp (Wizkid) Application
+# WizKid by John D Dondlinger
 
-A tool that integrates with the Groq API to provide screenshot analysis and chat functionality.
+A user-friendly, AI-powered self-help tool for Windows, powered by Groq's Compound Beta and Vision models. WizKid helps you analyze screenshots, review code, summarize text, organize files, and more—all from a simple menu, with no technical jargon required.
 
-## Quick Start
+---
 
-1. Simply run `run_screenhelp.bat` to install dependencies and launch the application
-2. If anything doesn't work, run `test_components.bat` to diagnose issues
+## 🚀 Quick Start
 
-## Features
+1. **Download and extract the ZIP** from the [GitHub Releases](https://github.com/yavru421/wizkid/releases) page.
+2. **Add your Groq API key:**
+   - Copy `.env.example` to `.env` and paste your key (get one at https://console.groq.com/).
+3. **Launch WizKid:**
+   - Double-click `WizKidLauncher.bat` (recommended) or run `ScreenHelp.ps1` in PowerShell.
 
-- **Screenshot Analysis**: Capture screenshots and analyze them using Groq Vision API
-- **Chat Interface**: Text-based communication with Groq AI models
-- **Flexible Modes**: Run in full mode, screenshot-only mode, or chat-only mode
+---
 
-## Setup Instructions
+## 🧙‍♂️ Features
 
-### Prerequisites
+- **Screenshot Analysis:** Instantly analyze your screen with AI.
+- **Clipboard Image Analysis:** Paste any image and get insights.
+- **Groq Chat:** Ask questions, get help, or brainstorm ideas.
+- **Smart Contextual Q&A:** Get thoughtful answers to complex scenarios.
+- **Code Review:** Select a code file for instant review and suggestions.
+- **Summarize Text:** Paste any text for a simple summary.
+- **Explain Error Message:** Paste an error and get a plain-English explanation.
+- **File Organization:** Clean up your Desktop, Downloads, and Temp folders.
+- **Personalization:** Set your name and style for a tailored experience.
+- **Voice Input (Experimental):** Dictate questions using Windows Speech Recognition.
+- **Feedback:** Send feedback to help improve WizKid.
 
-- Windows OS
-- Python 3.8 or higher
-- AutoHotkey v2.0 or higher
+---
 
-### Installation
+## 🖥️ Requirements
+- Windows 10/11
+- PowerShell 5.1+
+- Internet connection (for Groq API)
 
-1. Clone or download this repository
-2. Set up the Python environment:
+---
 
-```powershell
-cd scripts
-.\setup_python_env.ps1
-```
+## 🛠️ Setup Details
 
-3. Activate the virtual environment:
+1. **Clone or Download**
+   - Download the ZIP from GitHub and extract it anywhere (e.g., Desktop).
+2. **API Key**
+   - Copy `.env.example` to `.env` and add your Groq API key.
+3. **Run**
+   - Double-click `WizKidLauncher.bat` (or right-click > Run as Administrator if needed).
+   - Or, open PowerShell in the folder and run: `./ScreenHelp.ps1`
 
-```powershell
-..\venv\Scripts\Activate.ps1
-```
+---
 
-4. Set your GROQ API key (optional, a default key is included but may expire):
+## 📦 What’s in the ZIP?
+- `ScreenHelp.ps1`, `WizKid.ps1` — Main scripts
+- `modules/` — All required PowerShell modules
+- `assets/` — App images (no personal data)
+- `WizKidLauncher.bat` — Easy launcher
+- `.env.example` — Template for your API key
+- `README.md` — This file
 
-```powershell
-$env:GROQ_API_KEY = "your-groq-api-key"
-```
+**Not included:**
+- Your `.env` (keep your API key private!)
+- Log files, user preferences, and feedback logs
 
-### Running the Application
+---
 
-To run the application in full mode (both screenshot and chat):
+## 🔒 Security & Privacy
+- Your API key and personal data are never uploaded or shared.
+- All logs and preferences are stored locally.
 
-```
-cd scripts
-AutoHotkey.exe wizkid_gui.ahk
-```
+---
 
-To run in screenshot-only mode:
+## 🆘 Troubleshooting
+- If you see errors, check your `.env` file and internet connection.
+- For PowerShell script execution errors, run: `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned`
+- If you need help, open an issue on GitHub or email the author.
 
-```
-AutoHotkey.exe wizkid_gui.ahk --mode=screenshot
-```
+---
 
-To run in chat-only mode:
+## 🤖 Updating
+- Download the latest ZIP from GitHub Releases and overwrite your files (keep your `.env`).
 
-```
-AutoHotkey.exe wizkid_gui.ahk --mode=chat
-```
+---
 
-## Usage
+## 📝 License
+MIT License. See LICENSE file for details.
 
-### Screenshot Analysis
+---
 
-1. Click "Take Screenshot" to capture your screen
-2. Enter a question about the screenshot in the text field
-3. Select a model (Scout or Maverick)
-4. Click "Send to Groq Vision" to analyze the image
+## 💡 Contributing
+Pull requests and feedback are welcome! See CONTRIBUTING.md for guidelines.
 
-### Chat Interface
+---
 
-1. Select a model from the dropdown
-2. Enter your message in the text field
-3. Click "Send" to receive a response
+## 📦 Packaging for Distribution
+- Exclude `.env`, logs, and user data from your ZIP.
+- Include all scripts, modules, assets, `.env.example`, and this README.
+- Distribute via GitHub Releases or your preferred method.
 
-## Troubleshooting
+---
 
-- If screenshots aren't being saved, ensure Python is in your PATH and Pillow is installed
-- If responses aren't working, check your internet connection and Groq API key
-- Check the assets folder for response files if the UI doesn't show results
+## 🛠️ Advanced: GitHub Actions (Optional)
+You can automate ZIP packaging and release uploads using GitHub Actions. See `.github/workflows/release.yml` for an example (not included by default).
 
-## Project Structure
+---
 
-- **scripts/**: Contains the code files
-- **assets/**: Stores screenshots and response files
-- **archive/**: Contains older versions of the codebase
-- **venv/**: Python virtual environment
+Enjoy using WizKid! If you have questions or ideas, let us know!
