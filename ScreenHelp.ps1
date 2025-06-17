@@ -203,25 +203,31 @@ function Invoke-GroqVisionAnalysis {
         return
     }
 
-    # Constructing the JSON payload manually to ensure correct structure for messages array
-    # This structure is critical for the Groq API when sending image data.
-    $escapedQuestion = $Question -replace '"', '\"'; # Escape double quotes in the question
-    $body = @"
-{
-  "model": "$modelId",
-  "messages": [
-    {
-      "role": "user",
-      "content": [
-        { "type": "text", "text": "$escapedQuestion" },
-        { "type": "image_url", "image_url": { "url": "data:image/png;base64,$img64" } }
-      ]
+    # Using PowerShell objects for JSON payload creation
+    $payload = @{
+        model = $modelId
+        messages = @(
+            @{
+                role = "user"
+                content = @(
+                    @{
+                        type = "text"
+                        text = $Question
+                    }
+                    @{
+                        type = "image_url"
+                        image_url = @{
+                            url = "data:image/png;base64,$img64"
+                        }
+                    }
+                )
+            }
+        )
+        max_tokens = 2048
     }
-  ],
-  "max_tokens": 2048
-}
-"@
-    Write-Host "\n--- DEBUG: JSON payload to Groq Vision API ---" -ForegroundColor Yellow
+    
+    $body = ConvertTo-Json -InputObject $payload -Depth 10
+    Write-Host "--- DEBUG: JSON payload to Groq Vision API ---" -ForegroundColor Yellow
     Write-Host $body
 
     $headers = @{ 
@@ -306,7 +312,7 @@ function Invoke-ScreenshotAnalysis {
                         "type"      = "image_url"
                         "image_url" = @{
                             # Assuming PNG format for screenshots. Adjust to image/jpeg if needed.
-                            "url" = "data:image/png;base64,$Base64Image"
+                            url = "data:image/png;base64,$Base64Image"
                         }
                     }
                 )
@@ -395,7 +401,8 @@ function Write-BoxedText($lines, $color = "Cyan", $emoji = $null) {
     foreach ($line in $lines) {
         $pad = " " * ($maxLen - $line.Length)
         $prefix = if ($emoji) { "$emoji " } else { "  " }
-        Write-Host ("| $prefix$line$pad |") -ForegroundColor $color
+        $displayLine = "| $prefix" + $line + "$pad |"
+        Write-Host $displayLine -ForegroundColor $color
     }
     Write-Host $bottom -ForegroundColor $color
     Write-Host ""

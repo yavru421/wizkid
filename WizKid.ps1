@@ -1,6 +1,6 @@
 # --- SPLASH SCREEN: Show WizKid by John D Dondlinger Logo (ASCII Art) ---
 function Show-WizKidLogo {
-    $logoPath = Join-Path $PSScriptRoot 'wizkid_logo.txt'
+    $logoPath = Join-Path $PSScriptRoot 'wizkidlogo.txt'
     if (-not (Test-Path $logoPath)) { return }
     $lines = Get-Content $logoPath
     # Use only the second ASCII art block (after the empty line)
@@ -66,3 +66,61 @@ function Start-GroqChat {
         } catch { Write-Host "Error: $_" -ForegroundColor Red }
     }
 }
+
+# --- MAIN MENU AND APPLICATION FLOW ---
+function Show-Menu {
+    Clear-Host
+    Show-WizKidLogo
+    Write-Host "╔════════════════════════════════════════════════╗" -ForegroundColor Magenta
+    Write-Host "║                   MAIN MENU                    ║" -ForegroundColor Magenta
+    Write-Host "╚════════════════════════════════════════════════╝" -ForegroundColor Magenta
+    Write-Host ""
+    Write-Host "1) 📷 Upload File to Groq" -ForegroundColor Cyan
+    Write-Host "2) 📋 Download File from Groq" -ForegroundColor Cyan
+    Write-Host "3) 💬 Chat with Groq" -ForegroundColor Cyan
+    Write-Host "4) ⚙️  Set My Preferences" -ForegroundColor Cyan
+    Write-Host "5) 🔧 Let WizKid Decide" -ForegroundColor Cyan
+    Write-Host "6) 💡 Give Feedback to WizKid" -ForegroundColor Cyan
+    Write-Host "0) 🚪 Exit" -ForegroundColor Red
+    Write-Host ""
+}
+
+# --- MAIN APPLICATION LOOP ---
+function Main {
+    while ($true) {
+        Show-Menu
+        $choice = Read-Host "Choose an option (0-6)"
+        
+        switch ($choice) {
+            "1" { Write-Host "Upload File to Groq selected. This feature is coming soon!" -ForegroundColor Yellow }
+            "2" { Write-Host "Download File from Groq selected. This feature is coming soon!" -ForegroundColor Yellow }
+            "3" { Start-GroqChat }
+            "4" { Write-Host "Set My Preferences selected. This feature is coming soon!" -ForegroundColor Yellow }
+            "5" { Write-Host "Let WizKid Decide selected. This feature is coming soon!" -ForegroundColor Yellow }
+            "6" { 
+                Write-Host "Please type your feedback below. Type END on a new line when finished:" -ForegroundColor Yellow
+                $feedback = ""
+                while ($true) {
+                    $line = Read-Host
+                    if ($line -eq "END") { break }
+                    $feedback += "$line`n"
+                }
+                if ($feedback) {
+                    $logPath = Join-Path $PSScriptRoot "WizKid_Feedback.log"
+                    Add-Content -Path $logPath -Value "[$([datetime]::Now)] $feedback"
+                    Write-Host "Thank you for your feedback!" -ForegroundColor Green
+                }
+                Write-Host "Press Enter to return to menu..." -ForegroundColor Cyan
+                [void][System.Console]::ReadKey()
+            }
+            "0" { 
+                Write-Host "Thank you for using WizKid by John D Dondlinger!" -ForegroundColor Magenta
+                Exit
+            }
+            default { Write-Host "Invalid option. Please try again." -ForegroundColor Red; Start-Sleep -Seconds 1 }
+        }
+    }
+}
+
+# --- START THE APPLICATION ---
+Main
