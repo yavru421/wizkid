@@ -62,3 +62,12 @@ WizKid_by_John_D_Dondlinger.log
 
 # Git
 .git/
+
+# Project specific directories
+context/
+audio/*
+!audio/*.wav
+modules/venv/
+modules/AdvancedNLPModule.py
+modules/requirements.txt
+delete/
