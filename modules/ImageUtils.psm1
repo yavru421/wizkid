@@ -27,3 +27,5 @@ function Get-ImageBase64 {
         return $null
     }
 }
+
+Export-ModuleMember -Function Get-ImageBase64

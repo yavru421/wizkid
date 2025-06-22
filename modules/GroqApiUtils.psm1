@@ -1,9 +1,5 @@
 # WizKid PowerShell Edition - API Utilities
 
-function Get-GroqApiKey {
-    return $GroqApiKey
-}
-
 function Invoke-GroqApi {
     param (
         $Uri, $Method, $Headers, $Body
@@ -92,3 +88,42 @@ function Download-GroqFile {
         return $false
     }
 }
+
+function Send-GroqMessage {
+    param(
+        [string]$Message,
+        [string]$ApiKey,
+        [string]$Model = 'llama3-8b-8192'
+    )
+    
+    if (-not $ApiKey) {
+        return @{ Success = $false; Error = "API Key is missing." }
+    }
+
+    $headers = @{
+        "Authorization" = "Bearer $ApiKey"
+        "Content-Type"  = "application/json"
+    }
+    
+    $body = @{
+        messages = @(
+            @{ role = "user"; content = $Message }
+        )
+        model      = $Model
+        temperature = 0.3
+        max_tokens = 1024
+        top_p = 1
+        stream = $false
+        stop = $null
+    } | ConvertTo-Json
+
+    try {
+        $response = Invoke-GroqApi -Uri "https://api.groq.com/openai/v1/chat/completions" -Method Post -Headers $headers -Body $body
+        $content = $response.choices[0].message.content
+        return @{ Success = $true; Content = $content }
+    } catch {
+        return @{ Success = $false; Error = $_.Exception.Message }
+    }
+}
+
+Export-ModuleMember -Function Invoke-GroqApi, Upload-GroqFile, Download-GroqFile, Send-GroqMessage

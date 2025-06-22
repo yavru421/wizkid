@@ -32,3 +32,5 @@ function Write-BoxedText($lines, $color = "Cyan", $emoji = $null) {
     Write-Host $bottom -ForegroundColor $color
     Write-Host ""
 }
+
+Export-ModuleMember -Function Show-WizKidHeader, Write-BoxedText
